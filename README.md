@@ -1,31 +1,33 @@
-# Create an internet proxy server (squid) by Amazon AWS Cloudformation service.
+# 用亚马逊云服务（AWS）自动创建一台internet squid 代理服务器（EC2实例）
 
-## Introduction
-This template allows AWS customers to launch a Squid server in arbitrary region without loggin in to EC2 servers nor executing any command, but putting the template to [AWS CloudFormation](http://aws.amazon.com/cloudformation/).
+## 介绍
+这个模板(template)可以让AWS客户创建任意区域的squid服务器(internet 代理）而不用登录到EC2服务器，也不执行任何命令，要做的仅仅是把模板推送到[AWS CloudFormation](http://aws.amazon.com/cloudformation/).
 
-This project is rather a proof of concept, but I think some people find this template useful in some use cases. Some oline services restrict the range of source IPs, but people can quickly launch a web proxy in the US, Ireland, Singapore and Japan with this template. People with such demand may not have good technical skill to log in to Linux instances and then install and configure Squid to achieve their goal.
+该项目给出实例说明使用AWS 云服务的Cloudformation 的便利性，但我觉得有些人会觉得这个模板在一些特殊环境里有用。一些在线服务限制源IP地址范围，但人们可以用这个模板通过快速启动在美国，爱尔兰，新加坡，澳大利亚，德国，南美洲和日本web代理，而不需要有很好的技术技能就能启用linux系统，然后自动安装并配置Squid来实现他们的目标。
 
-## How to Deploy
-0. Create an AWS account, if you don't have one. You need credit card to apply an AWS Account.
-1. Save the template to your PC/Mac.
-2. Login to the AWS Management Console and open the CloudFormation tab.
-3. Choose one of the AWS regions where you want to launch a proxy server and then hit "Create New Stack" button.
-4. In "SELECT TEMPLATE": Select "*Upload a Template File*" and point to the template file that you save in step 1. You can leave the other fields as they are, but make sure to type in the *Stack Name* field with any name you feel comfortable.
-5. The next page, "SPECIFY PARAMETERS" asks for template-specific information. With EC2 Easy Proxy, you need to specify the port number you would like to use and your client IP address. This template create a firewall called Security Group to restrict other users from using your proxy server. You can check your own IP address [here](http://whatismyipaddress.com/).
-   Note that IP address needs to be specified with subnet mask. In other words, if you want to specify only one IP address ("1.2.3.4"), then the field should be "1.2.3.4/32"
-   ***If you are fine for any IPs, use "0.0.0.0/0". But you will take the risk to share it to others and cost may generate unexpectly.***
-6. Click Continue twice and finish the wizard.
-7. When the status of your stack turns green (CREATE_COMPLETE), then click the outputs tab of the bottom pane of the Management Console to find the IP address of the proxy server.
-8. Configure your web browser to use the proxy. Enjoy!
+##如何部署
+0. 创建一个AWS账号，如果您还没有一个。您需要用国际信用卡申请一个AWS账户。
+1. 将模板保存到您的PC / Mac （git clone https://git.oschina.net/rdcwayx/aws-proxy-server.git ）。
+2. 登录到AWS管理控制台，选择区域 （region），再打开CloudFormation选项。
+3. 选择“创建新栈 （create stack）”按钮。
+4. 在“选择模板”：选择“*上传模板文件*”，并指向您保存在步骤1中template文件，
+5. 接下来的页面中，“指定参数”要求的模板的具体信息。与EC2简单的代理，你需要指定你想使用的端口号和限制您的客户端IP地址。这个模板创建一个名为防火墙安全组来限制其他用户使用代理服务器。您可以检查[这里](http://whatismyipaddress.com/)得到你自己的IP地址。
 
-**Don't forget to "Delete Stack" and make sure that your instance is terminated when you no longer need the proxy server you launched with this template.**
+    ***需要注意的是IP地址需要与子网掩码指定。换句话说，如果你要指定一个IP地址（“1.2.3.4”），那么你应该输入“1.2.3.4/32”***
 
-**Stop the ec2 instance, if you needn't access internet via this proxy server, it will save your money. You can start it later, but with different IP address. You need adjust the IP address in your browser.**
+    ***如果你允许来自任何IP地址，可以用“0.0.0.0/0”。但会被他人探测和使用，而产生意想不到的费用***
+    
+6. 单击继续两次，并完成向导。
+7. 当该堆栈(stack)状态变为绿色（CREATE_COMPLETE），然后单击管理控制台的底部窗格中的输出（output）选项卡中找到代理服务器的IP地址 (比如 54.23.176.119)。
+8. 配置你自己的Web浏览器使用代理 (比如 54.23.176.119:3128)。你可以开始享受了！
 
-For newer users, please note that AWS free tier allows users to launch a t1.micro instance with an EBS volume as its root device for the first 12 months after the account created.
+**在你不再需要你这个模板推出的代理服务器后，不要忘记“删除堆栈”，并确保其实例被终止（terminal）。**
 
-## Interested in CloudFormation?
-For those who are interested in AWS CloudFormation, please visit the following sites for more information:
+**如果你不需要通过该代理服务器访问互联网，停止（stop）EC2实例，这将节省你的钱。您可以在以后启动，但会得到不同的IP地址。您需要调整您的浏览器的代理服务器的IP地址。**
+
+请注意，对于新的用户，AWS给予12个月免费启动一个t1.micro或者t2.micro实例与EBS卷作为根设备。
+
+## 对AWS 的cloudformation感兴趣，你想要了解更多？请访问以下站点：
 
 *   [AWS CloudFormation - product site](http://aws.amazon.com/cloudformation/)
 *   [Sample Templates](http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/sample-templates-services-us-west-2.html)
